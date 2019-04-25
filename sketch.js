@@ -61,18 +61,35 @@ function draw() {
   image(img,0,0,windowWidth,windowHeight);
   
   //perlin noise lightning shape
-  noFill();
-  strokeWeight(1);
-  beginShape();
-  let xoff = 0; // 2D Noise
-  // Iterate over vertical pixels
-  for (let y = 0; y <= height; y += 2) {
-    let x = map(noise(xoff, yoff), 0, 1, width/2-map(ms,0,187000,0,200), width/2+map(ms,0,187000,0,200)); // Calculate x value according to noise, map to 2D Noise
-    vertex(x,y);    // Set the vertex
-    xoff += 0.01; // Increment x dimension for noise
+  stroke(255,map(ms,0,187000,255,133),160);
+  for(let i=1; i<=5; i+=1){
+    noFill();
+    strokeWeight(1);
+    beginShape();
+    let xoff = 0; // 2D Noise
+    // Iterate over vertical pixels
+    for (let y = 0; y <= height; y += 2) {
+      let x = map(noise(xoff, yoff), 0, 1, (width/6*i)-map(ms,0,187000,0,200), (width/6*i)+map(ms,0,187000,0,200)); // Calculate x value according to noise, map to 2D Noise
+      vertex(x,y);    // Set the vertex
+      xoff += 0.01; // Increment x dimension for noise
+    }
+    yoff += 0.05;  // increment y dimension for noise
+    endShape(CLOSE);
   }
-  yoff += 0.05;  // increment y dimension for noise
-  endShape(CLOSE);
+
+  // noFill();
+  //   strokeWeight(1);
+  //   beginShape();
+  //   let xoff = 0; // 2D Noise
+  //   // Iterate over vertical pixels
+  //   for (let y = 0; y <= height; y += 2) {
+  //     let x = map(noise(xoff, yoff), 0, 1, (width/2)-map(ms,0,187000,0,200), (width/2)+map(ms,0,187000,0,200)); // Calculate x value according to noise, map to 2D Noise
+  //     vertex(x,y);    // Set the vertex
+  //     xoff += 0.01; // Increment x dimension for noise
+  //   }
+  //   yoff += 0.05;  // increment y dimension for noise
+  //   endShape(CLOSE);
+  
 
   //determine dimensions with audio
   var level = amplitude.getLevel();
@@ -82,7 +99,7 @@ function draw() {
   ry = 0;
   rw = map(level, 0, mapMax, 0, 500);
   rh = map(level, 0, mapMax, 0, 1000);
-  num_seg = map(level, 0, mapMax, 0, 1000);
+  num_seg = map(level, 0, mapMax, 0, 150);
 
   // // map ellipse height
   fill(50,100);
@@ -151,7 +168,7 @@ class Seg {
 
 //display Seg objects
   display(){
-    stroke(255,this.shade,133); //color based on varying green value
+    stroke(map(ms,0,187000,70,255),140,222); //color based on varying green value
     strokeWeight(this.stroke);
     line(this.x1, this.y1, this.x2, this.y2, this.shade, this.stroke);
   
